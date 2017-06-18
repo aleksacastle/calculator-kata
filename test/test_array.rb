@@ -4,7 +4,7 @@ class TestArray < Minitest::Test
   def setup
     @list = [1, 2, 3, 4, 5, 6]
   end
-  
+
   # in_groups_of method
   def test_inGroupsOf_Error
     assert_raises(ArgumentError){ in_groups_of(-1) }
@@ -53,6 +53,9 @@ class TestArray < Minitest::Test
   end
   def test_split_last
     assert_equal([[1, 2, 3, 4, 5], []], split(6))
+  end
+  def test_split_yield_as_args
+    assert_equal([[1, 2], [4, 5, 6]], @list.split{|num| num == 3})
   end
 
   # from method
