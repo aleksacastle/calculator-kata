@@ -57,7 +57,7 @@ RSpec.describe Array do
       end
 
       it "returns" do
-        expect(list.in_groups(7, false)).to eql [[1], [2], [3], [4], [5], [6], []]
+        expect(list.in_groups(7, FALSE_FILL)).to eql [[1], [2], [3], [4], [5], [6], []]
       end
     end
 
@@ -71,9 +71,14 @@ RSpec.describe Array do
         expect(list.split(0)).to eql [list]
       end
     end
+    
   it 'yields to the block multiple times' do
     expect {|b| list.split(list.size,&b) }
     .to yield_control.exactly(list.size).times
+  end
+  
+  it 'accepts yield as argument' do
+    expect(list.split{|num| num == 3}).to eql [[1, 2], [4, 5, 6]]
   end
 
   describe ".from" do
