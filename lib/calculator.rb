@@ -4,33 +4,32 @@ class Calculator
   LIMIT = 1000
   ERROR = "negatives not allowed -".freeze
 
-  def initialize; end
-
   def sum(numbers)
-    initialize
-    @numbers = numbers
     return ZERO if numbers.empty?
-    numbers_to_int
+
+    numbers_to_int(numbers)
     error_if_negative
     sum_calculate
   end
 
   private
 
-  def choose_delimiter
-    if @numbers.include?("//" && "[")
-      delimiter_list = @numbers.scan(/\[.+?\]+?/).join("|")
+  attr_reader :numbers
+
+  def choose_delimiter(numbers)
+    if numbers.include?("//" && "[")
+      delimiter_list = numbers.scan(/\[.+?\]+?/).join("|")
       @delimiter = %r(#{delimiter_list})
-    elsif @numbers.match(%r(\A//(.+)$))
+    elsif numbers.match(%r(\A//(.+)$))
       @delimiter = Regexp.last_match(ONE)
     else
       @delimiter = %r([,\n])
     end
   end
 
-  def numbers_to_int
-    choose_delimiter
-    @args = @numbers.delete("//[]").split(@delimiter).
+  def numbers_to_int(numbers)
+    choose_delimiter(numbers)
+    @args = numbers.delete("//[]").split(@delimiter).
     map(&:to_i).reject {|num| num > LIMIT}
   end
 
