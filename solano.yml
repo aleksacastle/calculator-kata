@@ -1,0 +1,5 @@
+hooks:
+  pre_setup: bundle install
+tests:
+  - spec/calculator_spec.rb
+  - spec/variant3_spec.rb
